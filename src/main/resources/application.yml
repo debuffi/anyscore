@@ -1,0 +1,38 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    password: pgpass
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=cybergames
+  mvc.pathmatch.matching-strategy: ant_path_matcher
+  flyway:
+    enabled: true
+    out-of-order: true
+  jpa:
+    generate-ddl: true
+    hibernate.ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    properties:
+      hibernate:
+        jdbc.lob.non_contextual_creation: true
+        envers.default_schema: cybergames
+        default_schema: cybergames
+
+springdoc:
+  show-actuator: true
+  api-docs:
+    path: /v1/api-docs
+    enabled: true
+    groups.enabled: true
+  swagger-ui:
+    enabled: true
+    tags-sorter: alpha
+    operations-sorter: alpha
+
+elastic-search:
+  scheme: http
+  hosts: 37.230.210.184
+  ports: 9200
