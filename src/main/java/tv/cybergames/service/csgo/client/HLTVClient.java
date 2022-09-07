@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author Vyacheslav Savinov
  * @since 07.09.2022
  */
-@FeignClient(contextId = "HLTVClient", url = "http://hltv.org")
+@FeignClient(url = "https://hltv.org", name = "HLTVClient")
 public interface HLTVClient {
 
     @GetMapping("/matches")

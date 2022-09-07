@@ -1,5 +1,7 @@
 package tv.cybergames.service.csgo.parser;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,11 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class HLTVParser {
 
-    public Object parseMatches(final String body) {
-        return null;
+    public Object parseMatches(final String html) {
+        final Document document = Jsoup.parse(html);
+        return html;
     }
 
-    public Object parsePlayers(final String body) {
-        return null;
+    public Object parsePlayers(final String html) {
+        return html;
     }
 }
