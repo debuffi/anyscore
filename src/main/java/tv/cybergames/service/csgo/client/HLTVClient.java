@@ -3,6 +3,7 @@ package tv.cybergames.service.csgo.client;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * @author Vyacheslav Savinov
@@ -14,6 +15,9 @@ public interface HLTVClient {
     @GetMapping("/matches")
     ResponseEntity<String> getMatchesAsHTML();
 
-    @GetMapping("/players")
-    ResponseEntity<String> getPlayersAsHTML();
+    @GetMapping("/stats/players")
+    ResponseEntity<String> getStatsPlayersAsHTML();
+
+    @GetMapping("/player/{playerId}/{playerName}")
+    ResponseEntity<String> getPlayerAsHtml(@PathVariable Long playerId, @PathVariable String playerName);
 }

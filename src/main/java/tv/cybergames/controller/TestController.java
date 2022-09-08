@@ -1,10 +1,14 @@
 package tv.cybergames.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import tv.cybergames.domain.dto.PlayerDto;
+import tv.cybergames.domain.dto.StatsPlayerDto;
 import tv.cybergames.service.GameInfo;
 
 /**
@@ -19,14 +23,18 @@ public class TestController {
     private final GameInfo hltvBasedGameInfo;
 
     @GetMapping("/matches")
-    public Object getMatches(){
+    public Object getMatches() {
         return hltvBasedGameInfo.getMatches();
     }
 
 
+    @GetMapping("/ststs/players")
+    public List<StatsPlayerDto> getStatsPlayers() {
+        return hltvBasedGameInfo.getStatsPlayers();
+    }
 
-    @GetMapping("/players")
-    public Object getPlayers(){
-        return hltvBasedGameInfo.getPlayers();
+    @GetMapping("/player")
+    public PlayerDto getPlayer() {
+        return hltvBasedGameInfo.getPlayer(11893L, "zywoo");
     }
 }
