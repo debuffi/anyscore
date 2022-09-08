@@ -36,3 +36,9 @@ elastic-search:
   scheme: http
   hosts: 37.230.210.184
   ports: 9200
+
+minio:
+  url: http://37.230.210.184:9000
+  bucketName: test
+  accessKey: AKIAIOSFODNN7EXAMPLE
+  secretValue: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
