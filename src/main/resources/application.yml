@@ -5,7 +5,7 @@ spring:
   datasource:
     password: pgpass
     username: postgres
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=cybergames
+    url: jdbc:postgresql://37.230.210.184:5432/postgres?currentSchema=anyscore
   mvc.pathmatch.matching-strategy: ant_path_matcher
   flyway:
     enabled: true
@@ -18,8 +18,8 @@ spring:
     properties:
       hibernate:
         jdbc.lob.non_contextual_creation: true
-        envers.default_schema: cybergames
-        default_schema: cybergames
+        envers.default_schema: anyscore
+        default_schema: anyscore
 
 springdoc:
   show-actuator: true
