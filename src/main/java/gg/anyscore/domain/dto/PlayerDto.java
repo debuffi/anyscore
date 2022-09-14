@@ -22,4 +22,8 @@ public class PlayerDto {
     private Integer age;
     private String countryName;
     private String countryLogoPath;
+    private String teamName;
+    private String twitterUrl;
+    private String instagramUrl;
+    private String twitchUrl;
 }

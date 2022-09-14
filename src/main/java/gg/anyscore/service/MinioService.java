@@ -3,13 +3,13 @@ package gg.anyscore.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Service;
 
 import gg.anyscore.config.properties.MinioProperties;
+import gg.anyscore.domain.dto.file.FileUploadResponse;
 import io.minio.BucketExistsArgs;
 import io.minio.GetObjectArgs;
 import io.minio.GetObjectResponse;
@@ -26,7 +26,6 @@ import io.minio.messages.Item;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import gg.anyscore.domain.dto.file.FileUploadResponse;
 
 /**
  * @author Vyacheslav Savinov
@@ -42,11 +41,12 @@ public class MinioService {
 
     @PostConstruct
     public void onStart() {
-        final String bucketName = minioProperties.getBucketName();
-        final boolean bucketExists = bucketExists(bucketName);
-        if (!bucketExists) {
-            makeBucket(bucketName);
-        }
+        minioProperties.getBucketNames().forEach(bucketName -> {
+            final boolean bucketExists = bucketExists(bucketName);
+            if (!bucketExists) {
+                makeBucket(bucketName);
+            }
+        });
     }
 
     @SneakyThrows
@@ -109,10 +109,8 @@ public class MinioService {
 
     @SneakyThrows
     public FileUploadResponse uploadFile(final String bucketName, final File file) {
-        final String folderPath = UUID.randomUUID().toString();
-        final String key = folderPath + "/" + file.getName();
         minioClient.uploadObject(UploadObjectArgs.builder().bucket(bucketName).object(file.getName()).filename(file.getName()).build());
-        return new FileUploadResponse(file.getName(), folderPath);
+        return new FileUploadResponse(file.getName(), null);
     }
 
     public List<Bucket> getAllBuckets() {

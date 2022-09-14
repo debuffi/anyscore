@@ -16,6 +16,4 @@ import gg.anyscore.domain.entity.Player;
 @Repository
 public interface PlayerRepository extends CrudRepository<Player, Long> {
 
-    @Transactional
-    List<Player> saveAll(List<Player> list);
 }

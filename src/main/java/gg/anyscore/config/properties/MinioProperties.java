@@ -1,5 +1,7 @@
 package gg.anyscore.config.properties;
 
+import java.util.List;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import lombok.Data;
@@ -14,5 +16,5 @@ public class MinioProperties {
     private String url;
     private String accessKey;
     private String secretValue;
-    private String bucketName;
+    private List<String> bucketNames;
 }

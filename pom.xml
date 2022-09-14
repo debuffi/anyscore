@@ -8,11 +8,11 @@
         <version>2.7.3</version>
         <relativePath/>
     </parent>
-    <groupId>gg.anystats</groupId>
-    <artifactId>anystats</artifactId>
+    <groupId>gg.anyscore</groupId>
+    <artifactId>anyscore</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>anystats</name>
-    <description>anystats.gg</description>
+    <name>anyscore</name>
+    <description>anyscore.gg</description>
 
     <properties>
         <java.version>17</java.version>

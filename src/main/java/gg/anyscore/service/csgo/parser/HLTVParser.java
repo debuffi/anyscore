@@ -59,6 +59,7 @@ public class HLTVParser {
         final String countryName = player.getElementsByClass("playerRealname").get(0).select("img").attr("title");
         final String countryLogoPath = player.getElementsByClass("playerRealname").get(0).select("img").attr("src");
         String age = player.getElementsByClass("listRight").get(0).text();
+        String teamName = player.getElementsByClass("listRight").get(1).select("a").get(0).text();
         age = age.substring(0, age.indexOf(" "));
 
         final PlayerDto playerDto = new PlayerDto();
@@ -69,6 +70,19 @@ public class HLTVParser {
         playerDto.setCountryName(countryName);
         playerDto.setCountryLogoPath("https://hltv.org" + countryLogoPath);
         playerDto.setPhotoPath(photoPath);
+        playerDto.setTeamName(teamName);
+
+        final Elements media = player.getElementsByClass("socialMediaButtons").get(0).select("a");
+        for (Element element : media) {
+            final String href = element.attr("href");
+            if (href.contains("twitter")) {
+                playerDto.setTwitterUrl(href);
+            } else if (href.contains("instagram")) {
+                playerDto.setInstagramUrl(href);
+            } else if (href.contains("twitch")) {
+                playerDto.setTwitchUrl(href);
+            }
+        }
         return playerDto;
     }
 }

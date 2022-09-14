@@ -62,7 +62,7 @@ public class HLTVBasedGameInfo implements GameInfo {
         } catch (Exception e) {
             final String errorMessage = "HLTV getPlayer -> error, message: %s".formatted(e.getMessage());
             log.error(errorMessage);
-            throw new RuntimeException(errorMessage);
+            throw new RuntimeException(errorMessage, e);
         }
     }
 }
