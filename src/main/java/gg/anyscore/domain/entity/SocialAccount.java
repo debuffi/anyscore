@@ -1,16 +1,14 @@
 package gg.anyscore.domain.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Vyacheslav Savinov
@@ -19,14 +17,20 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "social_account")
+@AllArgsConstructor
+@NoArgsConstructor
 public class SocialAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne(mappedBy = "socialAccount", cascade = CascadeType.ALL)
-    private Player player;
     private String twitter;
     private String instagram;
     private String twitch;
+
+    public SocialAccount(final String twitter, final String instagram, final String twitch) {
+        this.twitter = twitter;
+        this.instagram = instagram;
+        this.twitch = twitch;
+    }
 }

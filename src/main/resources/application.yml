@@ -39,7 +39,7 @@ elastic-search:
 
 minio:
   url: http://37.230.210.184:9000
-  bucketNames: test, country, player
+  bucketNames: test, country, player, team
   accessKey: AKIAIOSFODNN7EXAMPLE
   secretValue: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 

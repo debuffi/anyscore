@@ -13,9 +13,6 @@ import gg.anyscore.domain.entity.Player;
 @Mapper
 public interface PlayerMapper {
 
-    @Mapping(source = "dto.twitterUrl", target = "socialAccount.twitter")
-    @Mapping(source = "dto.instagramUrl", target = "socialAccount.instagram")
-    @Mapping(source = "dto.twitchUrl", target = "socialAccount.twitch")
     Player toEntity(PlayerDto dto);
 
     PlayerDto toDto(Player entity);

@@ -23,6 +23,8 @@ public class PlayerDto {
     private String countryName;
     private String countryLogoPath;
     private String teamName;
+    private String teamLogoPath;
+    private String teamPath;
     private String twitterUrl;
     private String instagramUrl;
     private String twitchUrl;

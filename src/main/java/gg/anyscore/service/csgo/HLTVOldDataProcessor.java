@@ -1,6 +1,7 @@
 package gg.anyscore.service.csgo;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import gg.anyscore.domain.dto.file.FileUploadResponse;
 import gg.anyscore.domain.entity.Country;
 import gg.anyscore.domain.entity.Picture;
 import gg.anyscore.domain.entity.Player;
+import gg.anyscore.domain.entity.SocialAccount;
+import gg.anyscore.domain.entity.Team;
 import gg.anyscore.domain.mapper.PlayerMapper;
 import gg.anyscore.domain.model.PictureType;
 import gg.anyscore.repository.PictureRepository;
@@ -25,11 +28,13 @@ import gg.anyscore.service.GameInfo;
 import gg.anyscore.service.MinioService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Vyacheslav Savinov
  * @since 08.09.2022
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class HLTVOldDataProcessor {
@@ -44,7 +49,7 @@ public class HLTVOldDataProcessor {
     @SneakyThrows
     public Iterable<Player> loadPlayers() {
         final List<StatsPlayerDto> statsPlayers = hltvBasedGameInfo.getStatsPlayers()
-                .stream().limit(3).toList();
+                .stream().limit(20).toList();
         final List<Player> players = new ArrayList<>();
         int i = 0;
         for (StatsPlayerDto statsPlayerDto : statsPlayers) {
@@ -53,9 +58,12 @@ public class HLTVOldDataProcessor {
             final PlayerDto player = hltvBasedGameInfo.getPlayer(id, name);
             final Picture countryPicture = loadPictureIfNeeded(player.getCountryLogoPath(), player.getCountryName(), PictureType.COUNTRY);
             final Picture photo = loadPictureIfNeeded(player.getPhotoPath(), player.getNickName(), PictureType.PLAYER);
+            final Picture teamPicture = loadPictureIfNeeded(player.getTeamLogoPath(), player.getTeamName(), PictureType.TEAM);
             final Player entity = playerMapper.toEntity(player);
             entity.setCountry(new Country(null, player.getCountryName(), countryPicture));
             entity.setPhoto(photo);
+            entity.setCurrentTeam(new Team(player.getTeamName(), teamPicture));
+            entity.setSocialAccount(new SocialAccount(player.getTwitterUrl(), player.getInstagramUrl(), player.getTwitchUrl()));
             players.add(entity);
 
             Thread.sleep(new Random().nextInt(200, 500));
@@ -66,17 +74,22 @@ public class HLTVOldDataProcessor {
         return playerRepository.saveAll(players);
     }
 
-    @SneakyThrows
-    public Picture loadPictureIfNeeded(String url, String name, PictureType type) {
-        final String title = name.toLowerCase();
-        final Optional<Picture> oPicture = pictureRepository.findByTitleAndType(title, type);
-        if (oPicture.isPresent()) return oPicture.get();
 
-        byte[] imageBytes = restTemplate.getForObject(url, byte[].class);
-        final File file = new File(Files.write(Paths.get(title + ".jpg"), imageBytes).toUri());
-        final FileUploadResponse response = minioService.uploadFile(type.name().toLowerCase(), file);
+    public Picture loadPictureIfNeeded(String url, String name, PictureType type) throws IOException {
+        try {
+            final String title = name.toLowerCase();
+            final Optional<Picture> oPicture = pictureRepository.findByTitleAndType(title, type);
+            if (oPicture.isPresent()) return oPicture.get();
 
-        final Picture picture = new Picture(response.getFolderPath(), response.getFileName(), title, type);
-        return pictureRepository.save(picture);
+            byte[] imageBytes = restTemplate.getForObject(url, byte[].class);
+            final File file = new File(Files.write(Paths.get(title + ".jpg"), imageBytes).toUri());
+            final FileUploadResponse response = minioService.uploadFile(type.name().toLowerCase(), file);
+
+            final Picture picture = new Picture(response.getFolderPath(), response.getFileName(), title, type);
+            return pictureRepository.save(picture);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
     }
 }

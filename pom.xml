@@ -131,7 +131,7 @@
                 <version>3.3.0</version>
                 <configuration>
                     <to>
-                        <image>registry.hub.docker.com/debuffi/anystats</image>
+                        <image>registry.hub.docker.com/debuffi/anyscore</image>
                         <auth>
                             <username>debuffi</username>
                             <password>123</password>
