@@ -1,4 +1,4 @@
-package tv.cybergames.config;
+package gg.anyscore.config;
 
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
@@ -7,8 +7,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import gg.anyscore.config.properties.ElasticSearchClientProperties;
 import lombok.RequiredArgsConstructor;
-import tv.cybergames.config.properties.ElasticSearchClientProperties;
 
 /**
  * @author Vyacheslav Savinov

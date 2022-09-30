@@ -1,4 +1,4 @@
-package tv.cybergames.config.properties;
+package gg.anyscore.config.properties;
 
 import java.util.List;
 
